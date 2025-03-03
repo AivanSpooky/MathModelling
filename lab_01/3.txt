@@ -1,0 +1,110 @@
+  //public static class Task3
+  //{
+  //    public static void Run()
+  //    {
+  //        Console.WriteLine("=== Задача 3 ===");
+  //        double x0 = 0.0;
+  //        double U0 = 0.0;
+  //        double h = 0.01;
+  //        int nSteps = 150;
+
+  //        // Метод Эйлера
+  //        var eulerSol = EulerMethod1Order((x, u) => x + Math.Pow(u, 3), x0, U0, h, nSteps);
+  //        // Метод Рунге–Кутты 4-го порядка
+  //        var rk4Sol = RungeKutta4((x, u) => x + Math.Pow(u, 3), x0, U0, h, nSteps);
+  //        // Итерации Пикара – для демонстрации используем простой интегральный подход
+  //        int picardIterations = 4;
+  //        double[] xValues = new double[nSteps + 1];
+  //        for (int i = 0; i <= nSteps; i++)
+  //            xValues[i] = x0 + i * h;
+  //        var picardApprox = PicardIterations(xValues, U0, picardIterations);
+
+  //        // Выводим таблицу сравнения
+  //        Console.WriteLine("    x      Euler         RK4      Picard1    Picard2   Picard3   Picard4");
+  //        for (int i = 0; i < xValues.Length; i++)
+  //        {
+  //            Console.Write($"{xValues[i],6:F3}");
+  //            double ue = eulerSol[i].U;
+  //            double urk = rk4Sol[i].U;
+  //            Console.Write($"   {ue,10:F6}   {urk,10:F6}");
+  //            for (int k = 0; k < picardIterations; k++)
+  //            {
+  //                Console.Write($"   {picardApprox[k][i],10:F6}");
+  //            }
+  //            Console.WriteLine();
+  //        }
+  //    }
+
+  //    // Метод Эйлера для ОДУ первого порядка: U'(x) = f(x, U)
+  //    public static List<(double x, double U)> EulerMethod1Order(
+  //        Func<double, double, double> f, double x0, double U0, double h, int nSteps)
+  //    {
+  //        var result = new List<(double, double)>();
+  //        double x = x0;
+  //        double U = U0;
+  //        result.Add((x, U));
+  //        for (int i = 0; i < nSteps; i++)
+  //        {
+  //            double fVal = f(x, U);
+  //            U = U + h * fVal;
+  //            x = x + h;
+  //            result.Add((x, U));
+  //        }
+  //        return result;
+  //    }
+
+  //    // Метод Рунге–Кутты 4-го порядка
+  //    public static List<(double x, double U)> RungeKutta4(
+  //        Func<double, double, double> f, double x0, double U0, double h, int nSteps)
+  //    {
+  //        var result = new List<(double, double)>();
+  //        double x = x0;
+  //        double U = U0;
+  //        result.Add((x, U));
+  //        for (int i = 0; i < nSteps; i++)
+  //        {
+  //            double k1 = f(x, U);
+  //            double k2 = f(x + h / 2.0, U + h * k1 / 2.0);
+  //            double k3 = f(x + h / 2.0, U + h * k2 / 2.0);
+  //            double k4 = f(x + h, U + h * k3);
+  //            double increment = (k1 + 2 * k2 + 2 * k3 + k4) / 6.0;
+  //            U = U + h * increment;
+  //            x = x + h;
+  //            result.Add((x, U));
+  //        }
+  //        return result;
+  //    }
+
+  //    // Итерации Пикара: интегральная форма уравнения
+  //    // U_{n+1}(x) = U(0) + ∫[0,x] [ t + (U_n(t))^3 ] dt.
+  //    public static List<double[]> PicardIterations(double[] xValues, double U0, int numIter)
+  //    {
+  //        int N = xValues.Length;
+  //        var result = new List<double[]>();
+  //        double[] prev = new double[N];
+  //        for (int i = 0; i < N; i++)
+  //            prev[i] = U0; // начальное приближение
+
+  //        for (int k = 0; k < numIter; k++)
+  //        {
+  //            double[] current = new double[N];
+  //            current[0] = U0;
+  //            for (int i = 1; i < N; i++)
+  //            {
+  //                // Используем метод прямоугольников для интегрирования
+  //                double xLeft = xValues[i - 1];
+  //                double xRight = xValues[i];
+  //                double mid = 0.5 * (xLeft + xRight);
+  //                // Интерполяция U_n(mid)
+  //                double U_mid = 0.5 * (prev[i - 1] + prev[i]);
+  //                double fMid = mid + Math.Pow(U_mid, 3);
+  //                double localIntegral = fMid * (xRight - xLeft);
+  //                current[i] = current[i - 1] + localIntegral;
+  //            }
+  //            result.Add(current);
+  //            prev = current;
+  //        }
+
+  //        return result;
+  //    }
+  //}
